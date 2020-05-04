@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package="message";
+
+message Note{
+    string text = 1;
+    int32 priority = 2;
+}
+
+message SaveNoteRequest{
+    Note note = 1;
+}
+
+message SaveNoteResponse{
+    bool IsOk = 1;
+}
+
+message GetAllNotesRequest{
+
+}
+
+message GetAllNotesResponse{
+    repeated Note notes = 1;
+}
+
+message GetLatestNoteRequest{
+    
+}
+
+message GetLatestNoteResponse{
+    Note note =1;
+}
+
+service UserService{
+    rpc SaveNote(SaveNoteRequest) returns (SaveNoteResponse);
+    rpc GetLatestNote(GetLatestNoteRequest) returns (GetLatestNoteResponse);
+    rpc GetAllNotes(GetAllNotesRequest) returns (GetAllNotesResponse);
+    
+}
