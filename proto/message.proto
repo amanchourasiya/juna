@@ -31,9 +31,16 @@ message GetLatestNoteResponse{
     Note note =1;
 }
 
+message ClearAllNotesRequest{
+}
+
+message ClearAllNotesResponse {
+}
+
 service UserService{
     rpc SaveNote(SaveNoteRequest) returns (SaveNoteResponse);
     rpc GetLatestNote(GetLatestNoteRequest) returns (GetLatestNoteResponse);
     rpc GetAllNotes(GetAllNotesRequest) returns (GetAllNotesResponse);
+    rpc ClearAllNotes(ClearAllNotesRequest) returns (ClearAllNotesResponse);
     
 }

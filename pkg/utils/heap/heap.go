@@ -29,7 +29,7 @@ func swim(k int) {
 func sink(k int) {
 	j := 2*k + 1
 	for {
-		if j > n {
+		if j >= n {
 			break
 		}
 		if j < n && less(j+1, j) {
@@ -51,6 +51,7 @@ func swap(i, j int) {
 }
 
 func less(i, j int) bool {
+	//log.Printf("i: %d j: %d\n", i, j)
 	if arr[i].Compare(arr[j]) == -1 {
 		return true
 	}
@@ -59,16 +60,21 @@ func less(i, j int) bool {
 
 func Insert(element Comparable) {
 	arr = append(arr, element)
+	//log.Printf("Insert calling swim %d\n", n)
+	TraverseHeap()
+	//log.Printf("Len of arr %d\n", len(arr))
 	swim(n)
 	n++
 }
 
-func Delete() {
+func Delete() Comparable {
+	res := arr[0]
 	swap(0, n-1)
 	n--
-	arr = append(arr[0 : n-1])
+	//arr = append(arr[0 : n-1])
 	//arr[n] = nil
 	sink(0)
+	return res
 }
 
 func GetAllElements() []Comparable {

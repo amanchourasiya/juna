@@ -2,6 +2,7 @@ package notes
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/amanchourasiya/juna/pkg/utils/heap"
 	"github.com/google/uuid"
@@ -35,7 +36,7 @@ func (note *Note) Compare(note2 heap.Comparable) int {
 }
 
 func (note *Note) ToString() string {
-	ret := fmt.Sprintf("%v %f %s\n", note.id, note.priority, note.text)
+	ret := fmt.Sprintf("%v,%.2f,%s\n", note.id, note.priority, note.text)
 	return ret
 }
 
@@ -58,4 +59,20 @@ func CreateNote(priority float32, text string) {
 
 func GetAllNotes() []*Note {
 	return readNotes()
+}
+
+func GetTopPriorityNote() *Note {
+	heap.Delete()
+	note := getTopNote()
+	clearNotesFile()
+	return note
+
+}
+
+func DeleteAllNotes() {
+	if clearNotesFile() {
+		log.Println("All notes successfully deleted")
+	} else {
+		log.Println("Failed to delete all notes")
+	}
 }

@@ -18,8 +18,14 @@ func RunClient() {
 		log.Fatalf("Failed to dial %v\n", err)
 	}
 	client := message.NewUserServiceClient(conn)
-	//SaveNote(client, 23, "Finish grpc notes module")
-	GetAllNotes(client)
+	SaveNote(client, 21, "Finish grpc notes module")
+	//SaveNote(client, 2, "Finish AWS course")
+	//SaveNote(client, 20, "Finish SDR module")
+
+	//GetLatestNote(client)
+	//GetLatestNote(client)
+	//GetAllNotes(client)
+	//ClearAllNotes(client)
 }
 
 func SaveNote(client message.UserServiceClient, priority int32, text string) {
@@ -43,6 +49,19 @@ func GetAllNotes(client message.UserServiceClient) {
 	}
 }
 
-func GetLatestNote() {
+func GetLatestNote(client message.UserServiceClient) {
+	note, err := client.GetLatestNote(context.Background(), &message.GetLatestNoteRequest{})
+	if err != nil {
+		log.Printf("Failed to get latest note %v\n", err)
+	}
+	log.Printf("Latest Note received %d %s\n", note.GetNote().GetPriority(), note.Note.GetText())
+}
+
+func ClearAllNotes(client message.UserServiceClient) {
+	_, err := client.ClearAllNotes(context.Background(), &message.ClearAllNotesRequest{})
+	if err != nil {
+		log.Printf("Failed to clear all notes %v\n", err)
+	}
+	log.Println("All notes successfully cleared")
 
 }

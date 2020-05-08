@@ -32,5 +32,16 @@ func (user *UserService) GetAllNotes(ctx context.Context, req *message.GetAllNot
 }
 
 func (user *UserService) GetLatestNote(ctx context.Context, req *message.GetLatestNoteRequest) (*message.GetLatestNoteResponse, error) {
-	return nil, nil
+	note := notes.GetTopPriorityNote()
+	msg_note := &message.Note{
+		Text:     note.GetText(),
+		Priority: int32(note.GetKey()),
+	}
+	resp := message.GetLatestNoteResponse{Note: msg_note}
+	return &resp, nil
+}
+
+func (user *UserService) ClearAllNotes(ctx context.Context, req *message.ClearAllNotesRequest) (*message.ClearAllNotesResponse, error) {
+	notes.DeleteAllNotes()
+	return &message.ClearAllNotesResponse{}, nil
 }
